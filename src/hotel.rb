@@ -15,7 +15,7 @@ class Hotel
 
   def generateTotalPrice name, customerType, days
     price = 0
-    days.each{ |day|
+    days.each { |day|
       if name.eql?("Lakewood")
         if day.eql?("sat") || day.eql?("sun")
           if (customerType.eql?("Regular"))
@@ -49,13 +49,13 @@ class Hotel
           if (customerType.eql?("Regular"))
             price += 150
           else
-            price += 100
+            price += 40
           end
         else
           if (customerType.eql?("Regular"))
             price += 220
           else
-            price += 40
+            price += 100
           end
         end
       end
@@ -67,17 +67,35 @@ class Hotel
     orders = getOrders(orderInfo)
     customerType = orders[:customerType]
     days = orders[:days]
-    lakewood = bridgewood = ridgewood =0
-    hotels = ["Lakewood","Bridgewood","Ridgewood"]
+    hotels = [{:name => "Lakewood",:rate => 3},{:name => "Bridgewood",:rate => 4},{:name =>"Ridgewood",:rate => 5}]
     index = 0
     temp = 0
-    hotels.map{ |hotel|
+    resultIndex = 0
+    rate = 0
+    hotels.map! { |hotel|
+      price = generateTotalPrice(hotel[:name], customerType, days)
       index += 1
-      price = generateTotalPrice(hotel,customerType,days)
-      temp = index if temp > price || temp = 0
-      {:name => hotel, :price => price}
+      if index == 1
+        temp = price
+        resultIndex = index
+        rate = hotel[:rate]
+      end
+      if temp > price
+        temp = price
+        resultIndex = index
+        rate = hotel[:rate]
+      elsif temp == price && hotel[:rate] > rate
+        temp = price
+        resultIndex = index
+        rate = hotel[:rate]
+      end
+      {:name => hotel[:name], :price => price, :rate => hotel[:rate]}
     }
-    hotels[index][:name]
+    p '~~~~~~~~'
+    p resultIndex
+    p hotels
+    hotels[resultIndex -1][:name]
+
     #if customerType.eql?("Regular")
     #  days.each { |day|
     #    if day.eql?("sat") || day.eql?("sun")
