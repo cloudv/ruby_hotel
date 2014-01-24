@@ -13,18 +13,26 @@ class Hotel
     orders = {:customerType => $1, :days => [].push($2).push($3).push($4)}
   end
 
+  def isRegularCustomer? customerType
+    if customerType.eql? "Regular"
+      return true
+    end
+      return false
+  end
+
   def generateTotalPrice name, customerType, days
     price = 0
+    debugger
     days.each { |day|
       if name.eql?("Lakewood")
         if day.eql?("sat") || day.eql?("sun")
-          if (customerType.eql?("Regular"))
+          if (isRegularCustomer?(customerType))
             price += 90
           else
             price += 80
           end
         else
-          if (customerType.eql?("Regular"))
+          if (isRegularCustomer?(customerType))
             price += 110
           else
             price += 80
@@ -32,13 +40,13 @@ class Hotel
         end
       elsif name.eql?("Bridgewood")
         if day.eql?("sat") || day.eql?("sun")
-          if (customerType.eql?("Regular"))
+          if (isRegularCustomer?(customerType))
             price += 60
           else
             price += 50
           end
         else
-          if (customerType.eql?("Regular"))
+          if (isRegularCustomer?(customerType))
             price += 160
           else
             price += 110
@@ -46,13 +54,13 @@ class Hotel
         end
       elsif name.eql?("Ridgewood")
         if day.eql?("sat") || day.eql?("sun")
-          if (customerType.eql?("Regular"))
+          if (isRegularCustomer?(customerType))
             price += 150
           else
             price += 40
           end
         else
-          if (customerType.eql?("Regular"))
+          if (isRegularCustomer?(customerType))
             price += 220
           else
             price += 100
@@ -80,6 +88,7 @@ class Hotel
         resultIndex = index
         rate = hotel[:rate]
       end
+      debugger
       if temp > price
         temp = price
         resultIndex = index
@@ -91,44 +100,7 @@ class Hotel
       end
       {:name => hotel[:name], :price => price, :rate => hotel[:rate]}
     }
-    p '~~~~~~~~'
-    p resultIndex
-    p hotels
     hotels[resultIndex -1][:name]
 
-    #if customerType.eql?("Regular")
-    #  days.each { |day|
-    #    if day.eql?("sat") || day.eql?("sun")
-    #      lakewood += 90
-    #      bridgewood += 60
-    #      ridgewood += 150
-    #    else
-    #      lakewood += 110
-    #      bridgewood += 160
-    #      ridgewood += 220
-    #    end
-    #  }
-    #elsif customerType.eql?("Rewards")
-    #  days.each { |day|
-    #    if day.eql?("sat") || day.eql?("sun")
-    #      lakewood += 80
-    #      bridgewood += 50
-    #      ridgewood += 100
-    #    else
-    #      lakewood += 80
-    #      bridgewood += 110
-    #      ridgewood += 40
-    #    end
-    #  }
-    #end
-    #temp = (lakewood < bridgewood) ? lakewood : bridgewood
-    #totalPrice = temp < ridgewood ? temp : ridgewood
-    #if totalPrice.eql?(lakewood)
-    #  "Lakewood"
-    #elsif totalPrice.eql?(bridgewood)
-    #  "Bridgewood"
-    #elsif totalPrice.eql?(ridgewood)
-    #  "Ridgewood"
-    #end
   end
 end

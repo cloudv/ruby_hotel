@@ -3,7 +3,7 @@ require '../src/hotel'
 describe Hotel do
   before do
     @hotel = Hotel.new
-    @input1 = "Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)"
+    @input1 = 'Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)'
     @input2 = "Regular: 20Mar2009(fri), 21Mar2009(sat), 22Mar2009(sun)"
     @input3 = "Rewards: 26Mar2009(thur), 27Mar2009(fri), 28Mar2009(sat)"
     @days = ["mon", "tues", "wed"]
@@ -21,13 +21,13 @@ describe Hotel do
     it 'shoudl return "330" when name is Lakewood and customerType "Regular" days["mon","tues","wed"]' do
       @hotel.generateTotalPrice("Lakewood", "Regular", ["mon", "tues", "wed"]).should eq 330
     end
+
+    it 'should return "240" when @input3 for "Lakewood"' do
+      @hotel.generateTotalPrice("Lakewood","Rewards",["thur","fri","sat"]).should eq 240
+    end
   end
 
   describe "getResult" do
-    #it 'shoudl call "generateTotalPrice"' do
-    #  @hotel.getResult(@input1)
-    #  @hotel.should_receive(:generateTotalPrice).once.with("Lakewood", "Regular", ['mon','tues','wed']).and_return(330)
-    #end
 
     it 'should return "Lakewood" when input "Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)"' do
       @hotel = Hotel.new
